@@ -51,7 +51,8 @@ HARV.foliar <- data.frame(FOL$plotID, FOL$plotType,
                           FOL$d15N, FOL$d13C, FOL$nitrogenPercent, 
                           FOL$carbonPercent, FOL$CNratio)
   
-  
-  
+write.csv(HARV.foliar,"HARV_leafcarbon", row.names = FALSE)
+
+write.csv(HARV.foliar,"/Users/xaunwilson/Desktop/Harvard Forest/Data/HARV/HARV_leafcarbon.csv", row.names = FALSE)
   
   
