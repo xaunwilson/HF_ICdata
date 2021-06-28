@@ -41,6 +41,7 @@ stackByTable(filepath="/Users/xaunwilson/github/HF_ICdata/filesToStack00095")
 
 ##once dataset is downloaded once use code below to get necessary data 
 
+library(neonUtilities)
 SOIL <- readTableNEON(
   dataFile='/Users/xaunwilson/github/HF_ICdata/filesToStack00095/stackedFiles/SCO2C_30_minute.csv',
   varFile='/Users/xaunwilson/github/HF_ICdata/filesToStack00095/stackedFiles/variables_00095.csv'
