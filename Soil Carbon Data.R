@@ -51,7 +51,7 @@ HARV.soilcarbon <- SOIL
 
 write.csv(HARV.soilcarbon,"HARV_soilcarbon", row.names = FALSE)
 
-write.csv(HARV.soilmoisture,"/Users/xaunwilson/Desktop/Harvard Forest/Data/HARV/HARV_soilcarbon.csv", row.names = FALSE)
+write.csv(HARV.soilcarbon,"/Users/xaunwilson/Desktop/Harvard Forest/Data/HARV/HARV_soilcarbon.csv", row.names = FALSE)
 
   
   
