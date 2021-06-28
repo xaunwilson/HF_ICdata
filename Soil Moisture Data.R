@@ -73,5 +73,8 @@ write.csv(HARV.soilmoisture,"/Users/xaunwilson/github/HF_ICdata\\HARV_soilmoistu
 
 write.csv(HARV.soilmoisture,"HARV_soilmoisture", row.names = FALSE)
 
+##read in soil moisture data once downloaded 
+
+MOIST2 <- read.csv("/Users/xaunwilson/Desktop/Harvard Forest/Data/HARV/HARV_soilmoisture.csv")
 
 
