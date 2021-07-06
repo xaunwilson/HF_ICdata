@@ -2,6 +2,8 @@
 library(neonstore)
 library(neonUtilities)
 
+#to find downloaded data look for file within 'R' folder tiled 'neonstore'. info from each data product will be included in folder titled with corresponding DP identifier 
+
 #show directory
 neon_dir()
 
@@ -20,6 +22,24 @@ temp.moist <- stackFromStore(filepaths=neon_dir(),
 
 
 ##soil carbon 
+#DP1.10086.001
+
+neon_download("DP1.10086.001", table = NA, site = c("HARV", "KONZ", "OSBS", "BART", "SRER"),
+              start_date = "2018-08-01", end_date = "2020-10-01", 
+              type = "expanded",api = "https://data.neonscience.org/api/v0")
+
+temp.soil <- stackFromStore(filepaths=neon_dir(),
+                            dpID="DP1.10086.001", 
+                            pubdate="2021-06-01",
+                            package="expanded")
+
+temp.soilcarbon <- temp.soil$ntr_internalLab
+
+site_id <- split(temp.soilcarbon, temp.soilcarbon$siteID)
+
+HARV.soil <- site_id$HARV
+
+KONZ.soil <-site_id$KONZ
 
 ##leaf carbon 
 DP1.10026.001
