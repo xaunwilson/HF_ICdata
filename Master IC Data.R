@@ -24,7 +24,7 @@ temp.moist <- stackFromStore(filepaths=neon_dir(),
 ##soil carbon 
 #DP1.10086.001
 
-neon_download("DP1.10086.001", table = NA, site = c("HARV", "KONZ", "OSBS", "BART", "SRER"),
+neon_download("DP1.10086.001", table = NA, site = c("HARV"),
               start_date = "2018-08-01", end_date = "2020-10-01", 
               type = "expanded",api = "https://data.neonscience.org/api/v0")
 
@@ -44,7 +44,7 @@ KONZ.soil <-site_id$KONZ
 ##leaf carbon 
 DP1.10026.001
 
-neon_download("DP1.10026.001", table = NA, site = c("KONZ", "BART", "SRER"),
+neon_download("DP1.10026.001", table = NA, site = c("HARV", "KONZ", "BART", "SRER"),
               start_date = "2018-08-01", end_date = "2020-10-01", 
               type = "expanded", api = "https://data.neonscience.org/api/v0")
 
@@ -138,3 +138,59 @@ KONZ.litter <- site_id$KONZ
 BART.litter <- site_id$BART
 
 SRER.litter <-site_id$SRER
+
+
+##aboveground carbon
+
+library(tidyverse)
+
+
+HARV.leafsum <- data.frame(HARV.leaf$uid, HARV.leaf$namedLocation, 
+                           HARV.leaf$siteID, HARV.leaf$collectDate,
+                           HARV.leaf$d13C, HARV.leaf$carbonPercent)
+
+
+HARV.leafsum <- rename(HARV.leafsum, 
+    #uid = HARV.leaf.uid,
+    #namedLocation = HARV.leaf.namedLocation,
+    collectDate = HARV.leaf.collectDate,
+    #siteID = HARV.leaf.siteID,
+    #leaf.d13C = HARV.leaf.d13C,
+    #leaf.carbonPercent = HARV.leaf.carbonPercent,
+  )
+
+HARV.littersum <- data.frame(HARV.litter$uid, HARV.litter$namedLocation, 
+                           HARV.litter$siteID, HARV.litter$collectDate,
+                           HARV.litter$d13C, HARV.litter$carbonPercent)
+
+HARV.littersum <- rename(HARV.littersum, 
+                       #uid = HARV.litter.uid,
+                       #namedLocation = HARV.litter.namedLocation,
+                       collectDate = HARV.litter.collectDate
+                       #siteID = HARV.litter.siteID,
+                       #litter.d13C = HARV.litter.d13C,
+                       #litter.carbonPercent = HARV.litter.carbonPercent,
+)
+
+HARV.woodsum <- data.frame(HARV.wood$uid, HARV.wood$namedLocation, 
+                             HARV.wood$siteID, HARV.wood$collectDate,
+                             HARV.wood$diameter, HARV.wood$bulkDensVolume,
+                           HARV.wood$diskFreshMass,HARV.wood$sampleFreshMass, 
+                           HARV.wood$subsampleFreshMassRatio, HARV.wood$dryMass,
+                           HARV.wood$diskDryMass)
+
+HARV.woodsum <- rename(HARV.woodsum, 
+                         #uid = HARV.wood.uid,
+                         #namedLocation = HARV.wood.namedLocation,
+                         #siteID = HARV.wood.siteID,
+                        collectDate = HARV.wood.collectDate
+)
+
+
+HARV.carbon <- full_join(HARV.leafsum, HARV.littersum, HARV.woodsum,
+                          by= c("namedLocation", "collectDate"))
+                         
+HARV.carbon2 <- merge(HARV.leafsum, HARV.littersum, HARV.woodsum, 
+                     by = c("namedLocation", "collectDate"))
+                         
+                     
