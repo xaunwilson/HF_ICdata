@@ -187,10 +187,19 @@ HARV.woodsum <- rename(HARV.woodsum,
 )
 
 
-HARV.carbon <- full_join(HARV.leafsum, HARV.littersum, HARV.woodsum,
+#HARV.carbon <- full_join(HARV.leafsum, HARV.littersum, HARV.woodsum,
                           by= c("namedLocation", "collectDate"))
                          
-HARV.carbon2 <- merge(HARV.leafsum, HARV.littersum, HARV.woodsum, 
+#HARV.carbon2 <- merge(HARV.leafsum, HARV.littersum, HARV.woodsum, 
                      by = c("namedLocation", "collectDate"))
-                         
+
+
+
+df_list <- list(HARV.woodsum, HARV.leafsum, HARV.littersum)
+
+HARV.carbon <-Reduce(function(x, y) merge(x, y, all=TRUE), df_list, accumulate=FALSE)
+
+
+
+
                      
