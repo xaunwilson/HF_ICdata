@@ -93,8 +93,8 @@ SRER.root <-site_id$SRER
 ##downed wood carbon
 DP1.10014.001
 
-neon_download("DP1.10014.001", table = NA, site = c("HARV", "KONZ", "BART", "SRER"),
-              start_date = "2018-08-01", end_date = "2021-06-01", 
+neon_download("DP1.10014.001", table = NA, site = c("OSBS"),
+              start_date = "2016-01-01", end_date = "2021-06-01", 
               type = "basic", api = "https://data.neonscience.org/api/v0")
 
 temp.wood <- stackFromStore(filepaths=neon_dir(),
@@ -114,18 +114,20 @@ BART.wood <- site_id$BART
 
 SRER.wood <-site_id$SRER
 
+OSBS.wood <- site_id$OSBS
+
 
 ##litter carbon
 DP1.10033.001
 
-neon_download("DP1.10033.001", table = NA, site = c("HARV", "KONZ", "BART", "SRER"),
-              start_date = "2018-08-01", end_date = "2021-06-01", 
-              type = "expanded", api = "https://data.neonscience.org/api/v0")
+neon_download("DP1.10033.001", table = NA, site = c("OSBS"),
+              start_date = "2016-01-01", end_date = "2021-06-01", 
+              type = "basic", api = "https://data.neonscience.org/api/v0")
 
 temp.litter <- stackFromStore(filepaths=neon_dir(),
                             dpID="DP1.10033.001", 
                             pubdate="2021-06-01",
-                            package="expanded")
+                            package="basic")
 
 temp.littercarbon <- temp.litter$ltr_litterCarbonNitrogen
 
@@ -139,6 +141,8 @@ BART.litter <- site_id$BART
 
 SRER.litter <-site_id$SRER
 
+OSBS.litter <-site_id$OSBS
+
 
 ##aboveground carbon
 
@@ -151,12 +155,12 @@ HARV.leafsum <- data.frame(HARV.leaf$uid, HARV.leaf$namedLocation,
 
 
 HARV.leafsum <- rename(HARV.leafsum, 
-    #uid = HARV.leaf.uid,
-    #namedLocation = HARV.leaf.namedLocation,
+    uid = HARV.leaf.uid,
+    namedLocation = HARV.leaf.namedLocation,
     collectDate = HARV.leaf.collectDate,
-    #siteID = HARV.leaf.siteID,
-    #leaf.d13C = HARV.leaf.d13C,
-    #leaf.carbonPercent = HARV.leaf.carbonPercent,
+    siteID = HARV.leaf.siteID,
+    leaf.d13C = HARV.leaf.d13C,
+    leaf.carbonPercent = HARV.leaf.carbonPercent,
   )
 
 HARV.littersum <- data.frame(HARV.litter$uid, HARV.litter$namedLocation, 
@@ -164,12 +168,12 @@ HARV.littersum <- data.frame(HARV.litter$uid, HARV.litter$namedLocation,
                            HARV.litter$d13C, HARV.litter$carbonPercent)
 
 HARV.littersum <- rename(HARV.littersum, 
-                       #uid = HARV.litter.uid,
-                       #namedLocation = HARV.litter.namedLocation,
-                       collectDate = HARV.litter.collectDate
-                       #siteID = HARV.litter.siteID,
-                       #litter.d13C = HARV.litter.d13C,
-                       #litter.carbonPercent = HARV.litter.carbonPercent,
+                       uid = HARV.litter.uid,
+                       namedLocation = HARV.litter.namedLocation,
+                       collectDate = HARV.litter.collectDate,
+                       siteID = HARV.litter.siteID,
+                       litter.d13C = HARV.litter.d13C,
+                       litter.carbonPercent = HARV.litter.carbonPercent,
 )
 
 HARV.woodsum <- data.frame(HARV.wood$uid, HARV.wood$namedLocation, 
@@ -180,9 +184,9 @@ HARV.woodsum <- data.frame(HARV.wood$uid, HARV.wood$namedLocation,
                            HARV.wood$diskDryMass)
 
 HARV.woodsum <- rename(HARV.woodsum, 
-                         #uid = HARV.wood.uid,
-                         #namedLocation = HARV.wood.namedLocation,
-                         #siteID = HARV.wood.siteID,
+                         uid = HARV.wood.uid,
+                         namedLocation = HARV.wood.namedLocation,
+                         siteID = HARV.wood.siteID,
                         collectDate = HARV.wood.collectDate
 )
 
@@ -197,9 +201,13 @@ HARV.woodsum <- rename(HARV.woodsum,
 
 df_list <- list(HARV.woodsum, HARV.leafsum, HARV.littersum)
 
+
 HARV.carbon <-Reduce(function(x, y) merge(x, y, all=TRUE), df_list, accumulate=FALSE)
 
+write.csv( HARV.carbon,"/projectnb/dietzelab/xwilson1/Harv Carbon.csv", row.names = FALSE)
 
 
 
+help(write.csv)
+                     
                      
